@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import classes from './Login.module.css'
 import { Link, useNavigate } from 'react-router-dom';
-
+import axios from 'axios'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -9,7 +9,7 @@ const Login = () => {
  const [enterName , setEnterName] = useState('')
  const [enteremail , setEnterEmail] = useState('')
  const [enterpassword , setEnterPassword] = useState('')
- const [err , setErr] = useState('Wrong passWord')
+ const [err , setErr] = useState('')
 
   const toggleHandler=(e)=>{
 setToggle(!toggle)
@@ -18,45 +18,18 @@ setToggle(!toggle)
   const submitHandler=(e)=>{
     e.preventDefault();
     if(toggle){
-      fetch('localhost:3000',{
-        method:'POST',
-        body:JSON.stringify({email:enteremail, password:enterpassword ,returnSecureToken:true}) ,
-        headers:{
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(res=>{
-        if(res.ok){
-          return res.json()
-        }else{
-          return res.json().then((data)=>window.alert(data.error.message))
-        }
-      }).then((res)=>{
+      axios.post('http://localhost:4000/auth/register',{name:enterName,email:enteremail,password:enterpassword}).
+      then((res)=>{
         console.log(res)
-        window.alert('LogIn Successful !!!')
-        navigate('/home')
+        if(res.status == 202){
+          setErr(res.data)
+        }else{
+          setErr('')
+        }
       })
     
     }else{
     
-      fetch('localhost:3000',{
-        method:'POST',
-        body:JSON.stringify({email:enteremail, password:enterpassword , userName: enterName , returnSecureToken:true}) ,
-        headers:{
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(res=>{
-        if(res.ok){
-          return res.json()
-        }else{
-          return res.json().then((data)=>window.alert(data.error.message))
-        }
-      }).then((res)=>{
-        console.log(res)
-        window.alert('Sing Up successfull !!!')
-        navigate('/home')
-      })
     }
       
   }
