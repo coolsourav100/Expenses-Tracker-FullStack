@@ -7,7 +7,6 @@ id:{
   allowNull: false, 
   autoIncrement: true,
     primaryKey: true,
-    primaryKey:true
     
 },
 name:{

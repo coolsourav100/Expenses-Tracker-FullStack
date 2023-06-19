@@ -35,6 +35,7 @@ setToggle(!toggle)
       then((res)=>{
         console.log(res)
         setErr('')
+        navigate('/expenses')
       }).catch(err=>{
         setErr(err.response.data)
       })
