@@ -1,44 +1,51 @@
 const { where } = require('sequelize');
 const User = require('../model/user')
+// bcrypt is for password encrypation 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 // Register User
-exports.registerUser=((req,res,next)=>{
+
+
+exports.registerUser= async(req,res,next)=>{
+  try{
   let name = req.body.name;
   let email = req.body.email;
-  let password = req.body.password;
-  // console.log(User.findAll({where:{
-  //   email:req.body.email
-  // }}).then(result=>result))
-  User.findAll({where:{
-    email:email
-  }}).then(result=>{
-    if(result.length>0 == false){
-      User.create({
-        name , email , password
-      }).then((result=>{
-        res.status(200).json('User Created')})).catch(err=>console.log(err))
+  let userpassword = req.body.password;
+  const user = await User.findAll({where:{email:email}})
+    if(user.length>0 == false){
+      bcrypt.hash(userpassword, saltRounds, async(err, hash)=>{
+        await User.create({
+           name:name , email:email , password: hash
+         }).then((result=>{
+           res.status(200).json('User Created')})).catch(err=>console.log(err))
+      })
     }else{
       res.status(202).json('User already Exists')
-    }
-  }).catch(err=>console.log(err))
-})
+    } 
+}catch(err){
+  res.status(501).json(err)
+}
+}
 
 // Login
 
-exports.loginUser=((req,res,next)=>{
+exports.loginUser = async(req,res,next)=>{
+  try{
   const email = req.body.email
   const userPassword = req.body.password
-  User.findAll({where :{
-    email:email
-  }}).then(result =>{
-    if(result.length>0 == true){
-      if(result[0].password == userPassword){
-res.status(200).json('user login successfully !')
-      }else{
-        res.status(401).json('password Invalid !')
-      }
+  const user = await User.findAll({where:{ email:email }})
+    if(user.length>0 == true){
+      bcrypt.compare(userPassword , user[0].password ,(err , result)=>{
+        if(!err){
+      res.status(200).json('user login successfully !')
+        }else{
+          res.status(401).json('User Not Authorizes!')
+        }
+      })
     }else{
-      res.status(400).json('UserId InValid !')
+      res.status(404).json('User Not Found !')
     }
-  })
+  
+}catch(err){res.status(500).json(err)}
 
-})
+}
