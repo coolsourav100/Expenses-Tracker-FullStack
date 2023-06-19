@@ -12,6 +12,7 @@ const Login = () => {
  const [err , setErr] = useState('')
 
   const toggleHandler=(e)=>{
+    setErr('')
 setToggle(!toggle)
   }
 
@@ -26,7 +27,7 @@ setToggle(!toggle)
         }else{
           setErr('')
         }
-      })
+      }).catch(err=>console.log(err))
     
     }else{
       console.log('Login')
