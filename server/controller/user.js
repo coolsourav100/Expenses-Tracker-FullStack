@@ -1,5 +1,6 @@
 const { where } = require('sequelize');
 const User = require('../model/user')
+// Register User
 exports.registerUser=((req,res,next)=>{
   let name = req.body.name;
   let email = req.body.email;
@@ -19,4 +20,25 @@ exports.registerUser=((req,res,next)=>{
       res.status(202).json('User already Exists')
     }
   }).catch(err=>console.log(err))
+})
+
+// Login
+
+exports.loginUser=((req,res,next)=>{
+  const email = req.body.email
+  const userPassword = req.body.password
+  User.findAll({where :{
+    email:email
+  }}).then(result =>{
+    if(result.length>0 == true){
+      if(result[0].password == userPassword){
+res.status(200).json('user login successfully !')
+      }else{
+        res.status(401).json('password Invalid !')
+      }
+    }else{
+      res.status(400).json('UserId InValid !')
+    }
+  })
+
 })

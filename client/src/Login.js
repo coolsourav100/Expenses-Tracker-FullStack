@@ -29,7 +29,14 @@ setToggle(!toggle)
       })
     
     }else{
-    
+      console.log('Login')
+      axios.post('http://localhost:4000/auth/login',{email:enteremail,password:enterpassword}).
+      then((res)=>{
+        console.log(res)
+        setErr('')
+      }).catch(err=>{
+        setErr(err.response.data)
+      })
     }
       
   }
