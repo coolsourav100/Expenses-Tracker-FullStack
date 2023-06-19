@@ -33,7 +33,8 @@ setToggle(!toggle)
       console.log('Login')
       axios.post('http://localhost:4000/auth/login',{email:enteremail,password:enterpassword}).
       then((res)=>{
-        console.log(res)
+        console.log(res.data)
+        localStorage.setItem('token',res.data.token)
         setErr('')
         navigate('/expenses')
       }).catch(err=>{

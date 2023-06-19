@@ -6,7 +6,7 @@ const Etable = () => {
   const [toggle , setToggle] = useState(false)
 
   useEffect(()=>{
-axios.get('http://localhost:4000/expenses/allexpenses').then((res)=>{
+axios.get('http://localhost:4000/expenses/allexpenses',{headers:{Authorization:localStorage.getItem('token')}}).then((res)=>{
   console.log(res,'All')
   setExpenseData(res.data)
 })
@@ -19,7 +19,7 @@ setExpense({...expens,[e.target.name]:e.target.value})
   const submitHandler= async(e)=>{
     e.preventDefault()
 try{
-let res = await axios.post('http://localhost:4000/expenses/addexpenses',{...expens})
+let res = await axios.post('http://localhost:4000/expenses/addexpenses',{...expens},{headers:{Authorization:localStorage.getItem('token')}})
 console.log(res)
 if(res){
   setExpense({des:"", amount:0,cata:""})
@@ -33,7 +33,7 @@ if(res){
 
   const deleteHandler=async(id)=>{
     try{
-      await axios.delete(`http://localhost:4000/expenses/deleteexpenses/${id}`).then(res=>{
+      await axios.delete(`http://localhost:4000/expenses/deleteexpenses/${id}`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
         console.log(res)
         setToggle(!toggle)
       })

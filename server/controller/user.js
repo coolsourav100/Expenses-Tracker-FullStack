@@ -2,9 +2,9 @@ const { where } = require('sequelize');
 const User = require('../model/user')
 // bcrypt is for password encrypation 
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 const saltRounds = 10;
 // Register User
-
 
 exports.registerUser= async(req,res,next)=>{
   try{
@@ -28,7 +28,11 @@ exports.registerUser= async(req,res,next)=>{
 }
 
 // Login
-
+function generateToken(userId){
+let token = jwt.sign({userId:userId} ,'secrectKey')
+// console.log(token,'==================>')
+return token
+}
 exports.loginUser = async(req,res,next)=>{
   try{
   const email = req.body.email
@@ -37,7 +41,7 @@ exports.loginUser = async(req,res,next)=>{
     if(user.length>0 == true){
       bcrypt.compare(userPassword , user[0].password ,(err , result)=>{
         if(!err){
-      res.status(200).json('user login successfully !')
+      res.status(200).json({response:"UserLoggedIn",token:generateToken(user[0].id)})
         }else{
           res.status(401).json('User Not Authorizes!')
         }
