@@ -24,14 +24,15 @@ exports.addExpenses = async(req,res,next)=>{
 
 exports.deleteExpenses= async(req,res,next)=>{
     const id = req.params.id
-    console.log(req.params)
+    console.log(id)
     try{
-        await Expenses.findByPk(id).then(result=>{
-            result.destroy()
-        }).then((result)=>{
-            res.status(206).json('Expenses has been Deleted !!!')
-        })
-    }catch{
+        await Expenses.findAll({where:{userId:req.user.id}}).then(rr=>{
+        rr.map((item)=>{
+            if(item.id == id){
+                item.destroy()
+            }})
+        }).then(result=>res.status(206).json('Expenses has been Deleted !!!'))
+    }catch(err){
         res.status(500).json(err)
     }
 }
