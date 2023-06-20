@@ -4,12 +4,12 @@ import React, { useEffect, useState } from 'react'
 const Learderboard = ({toggle}) => {
     const [resData , setResData] = useState([])
     const arr = resData.sort((a,b)=>{
-        return b.totalExpenses - a.totalExpenses
+        return b.totalamount - a.totalamount
     })
 
     useEffect(()=>{
-        axios.get('http://localhost:4000/auth/getleaderboard').then(res=>{
-            console.log(res)
+        axios.get('http://localhost:4000/premium/leaderboard',{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
+            console.log(res ,'==================>')
             return setResData(res.data)
         }).catch(err=>console.log(err))
     },[toggle])
@@ -36,7 +36,7 @@ const Learderboard = ({toggle}) => {
     <tr>
       <th scope="row">{ind+1}</th>
       <td>{item.name}</td>
-      <td>{item.totalExpenses}</td>
+      <td>{item.totalamount}</td>
       
     </tr>
       )

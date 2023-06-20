@@ -11,6 +11,7 @@ const userRouter = require('./router/user');
 const expensesRouter = require('./router/expenses')
 const paymentOrder = require('./router/order')
 const Order = require('./model/order')
+const premiumRouter = require('./router/premium')
 // Middlewere
 app.use(cors())
 app.use(bodyParser.json())
@@ -18,6 +19,7 @@ app.use(bodyParser.json())
 app.use('/auth',userRouter)
 app.use('/expenses' , expensesRouter)
 app.use('/order' ,paymentOrder )
+app.use('/premium' , premiumRouter)
 
 User.hasMany(Expenses)
 Expenses.belongsTo(User)

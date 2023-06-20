@@ -1,4 +1,4 @@
-const { where } = require('sequelize');
+// const { where } = require('sequelize');
 const User = require('../model/user')
 // bcrypt is for password encrypation 
 const bcrypt = require('bcrypt');
@@ -33,6 +33,7 @@ let token = jwt.sign({userId:userId} ,'secrectKey')
 // console.log(token,'==================>')
 return token
 }
+
 exports.loginUser = async(req,res,next)=>{
   try{
   const email = req.body.email
@@ -54,15 +55,15 @@ exports.loginUser = async(req,res,next)=>{
 
 }
 
-exports.getLeaderBoard = async(req,res,next)=>{
-  try{
-    await User.findAll().then(result=>{
-      return res.status(200).json(result)
-    }).catch(err=>{
-      throw new Error(err)
-    })
+// exports.getLeaderBoard = async(req,res,next)=>{
+//   try{
+//     await User.findAll().then(result=>{
+//       return res.status(200).json(result)
+//     }).catch(err=>{
+//       throw new Error(err)
+//     })
 
-  }catch(err){
-    res.status(500).json(err)
-  }
-}
+//   }catch(err){
+//     res.status(500).json(err)
+//   }
+// }
