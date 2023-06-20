@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import axios  from'axios';
 import PayButton from './PayButton';
+import Learderboard from './Learderboard';
 const Etable = () => {
   const [expens , setExpense] = useState({des:"", amount:0,cata:""})
   const [expensData , setExpenseData] = useState([]);
-  const [toggle , setToggle] = useState(false)
+  const [toggle , setToggle] = useState(false);
+  const [userpro ,setUserpro] = useState(localStorage.getItem('isPro'))
 
   useEffect(()=>{
+
 axios.get('http://localhost:4000/expenses/allexpenses',{headers:{Authorization:localStorage.getItem('token')}}).then((res)=>{
   console.log(res,'All')
+  console.log(userpro=='false')
   setExpenseData(res.data)
 })
   },[toggle])
@@ -43,9 +47,14 @@ if(res){
     }
 
   }
+  function pro(id){
+    setUserpro(id)
+  }
   return (
     <div className='row'>
-       <PayButton/>
+       {/* {userpro==false && <PayButton ispro={pro}/>} */}
+       {userpro=='false' ?  <PayButton ispro={pro}/> :<h4>Welcome Premium User</h4>}
+       {/* <div className='conatiner'> */}
     <div className='container h-50 col-3 border border-info rounded p-4 m-4'>
         <h3 className='text-secondary d-flex justify-content-center p-1'> Add Your Expenses</h3>
         <form onSubmit={submitHandler}>
@@ -72,6 +81,9 @@ if(res){
         <button type='submit' className='btn btn-info border border-info  m-2'>Add</button>
         </div>
         </form>
+        {userpro=='false' ? null :<Learderboard toggle={toggle}/>}
+    
+    {/* </div> */}
     </div>
     <div className='container col-8 border border-info rounded p-4 m-4'>
         <h3 className='text-secondary d-flex justify-content-center p-1'>Your Expenses List</h3>

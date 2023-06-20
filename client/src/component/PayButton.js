@@ -1,7 +1,8 @@
 import axios from 'axios'
 import React from 'react'
 
-const PayButton = () => {
+const PayButton = ({ispro}) => {
+    // console.log(props)
     function loadScript(src) {
         return new Promise((resolve) => {
             const script = document.createElement("script");
@@ -33,7 +34,10 @@ const PayButton = () => {
             "handler" : async function (responce){
                 await axios.post('http://localhost:4000/order/paymentstatus',{
                     order_id : options.order_id ,
-                    payment_id:responce.razorpay_payment_id } , {headers:{Authorization:localStorage.getItem('token')}}).then(res=>console.log(res,'res')).catch(err=>console.log(err,'err'))
+                    payment_id:responce.razorpay_payment_id } , {headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
+                        localStorage.setItem('isPro',true)
+                        return ispro(true)
+                    }).catch(err=>console.log(err,'err'))
                     alert('You are Premium user Now')
                 }
             }

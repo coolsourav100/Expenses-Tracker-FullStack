@@ -23,7 +23,14 @@ password:{
   allowNull:false
   
 },
-ispremiumuser:Sequlize.BOOLEAN
+ispremiumuser:{
+  type:Sequlize.BOOLEAN,
+  defaultValue: false,
+},
+totalExpenses:{
+  type:Sequlize.INTEGER,
+  defaultValue: 0
+}
 })
 
 module.exports = User

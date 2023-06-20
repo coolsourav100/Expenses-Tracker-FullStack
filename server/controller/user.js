@@ -53,3 +53,16 @@ exports.loginUser = async(req,res,next)=>{
 }catch(err){res.status(500).json(err)}
 
 }
+
+exports.getLeaderBoard = async(req,res,next)=>{
+  try{
+    await User.findAll().then(result=>{
+      return res.status(200).json(result)
+    }).catch(err=>{
+      throw new Error(err)
+    })
+
+  }catch(err){
+    res.status(500).json(err)
+  }
+}
