@@ -35,6 +35,7 @@ setToggle(!toggle)
       then((res)=>{
         console.log(res.data)
         localStorage.setItem('token',res.data.token)
+        localStorage.setItem('isPro',res.data.isPro)
         setErr('')
         navigate('/expenses')
       }).catch(err=>{

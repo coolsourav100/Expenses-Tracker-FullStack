@@ -22,7 +22,8 @@ password:{
   type:Sequlize.STRING,
   allowNull:false
   
-}
+},
+ispremiumuser:Sequlize.BOOLEAN
 })
 
 module.exports = User

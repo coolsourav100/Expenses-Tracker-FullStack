@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios  from'axios';
+import PayButton from './PayButton';
 const Etable = () => {
   const [expens , setExpense] = useState({des:"", amount:0,cata:""})
   const [expensData , setExpenseData] = useState([]);
@@ -44,6 +45,7 @@ if(res){
   }
   return (
     <div className='row'>
+       <PayButton/>
     <div className='container h-50 col-3 border border-info rounded p-4 m-4'>
         <h3 className='text-secondary d-flex justify-content-center p-1'> Add Your Expenses</h3>
         <form onSubmit={submitHandler}>
