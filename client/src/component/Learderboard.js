@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 const Learderboard = ({toggle}) => {
     const [resData , setResData] = useState([])
-    const arr = resData.sort((a,b)=>{
-        return b.totalamount - a.totalamount
-    })
+
 
     useEffect(()=>{
         axios.get('http://localhost:4000/premium/leaderboard',{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
@@ -29,7 +27,7 @@ const Learderboard = ({toggle}) => {
   <tbody>
     
       {
-        arr?.map((item , ind)=>{
+        resData?.map((item , ind)=>{
             return (
 
           
