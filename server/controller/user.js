@@ -69,3 +69,12 @@ exports.loginUser = async(req,res,next)=>{
 //     res.status(500).json(err)
 //   }
 // }
+
+exports.downloadReport = async(req,res,next)=>{
+  console.log(req.header['Authorization'],'===================================>')
+  try{
+
+  }catch(err){
+
+  }
+}

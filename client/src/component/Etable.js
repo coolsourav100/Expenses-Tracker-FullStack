@@ -53,8 +53,13 @@ if(res){
   }
   
   const reportDownloader=()=>{
-    let blob = new Blob([expensData], {type: "text/csv;charset=utf-8"});
-FileSaver.saveAs(blob, "report.csv");
+//     let blob = new Blob([expensData], {type: "text/csv;charset=utf-8"});
+// FileSaver.saveAs(blob, "report.csv");
+axios.get(`http://localhost:4000/auth/download`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
+  console.log(res)
+}).catch(err=>{
+  console.log(err)
+})
   }
   return (
     <div className='row'>
