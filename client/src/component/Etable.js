@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios  from'axios';
 import PayButton from './PayButton';
-import FileSaver from 'file-saver';
+// import FileSaver from 'file-saver';
 import Learderboard from './Learderboard';
 const Etable = () => {
   const [expens , setExpense] = useState({des:"", amount:0,cata:""})

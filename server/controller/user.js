@@ -2,7 +2,9 @@
 const User = require('../model/user')
 // bcrypt is for password encrypation 
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const Expenses = require('../model/expenses');
+const AWS = require('aws-sdk')
 const saltRounds = 10;
 // Register User
 
@@ -69,10 +71,45 @@ exports.loginUser = async(req,res,next)=>{
 //     res.status(500).json(err)
 //   }
 // }
+function uploadToS3(data , filename){
+  const BUCKET_NAME ='souravexpenses';
+  const IAM_USER_KEY ='AKIA32HNJJRSISHOWJRZ';
+  const IAM_USER_SECRET='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'
+
+  let s3bucket = new AWS.S3({
+    accessKeyId : IAM_USER_KEY ,
+    secretAccessKey : IAM_USER_SECRET,
+  })
+  s3bucket.createBucket(()=>{
+    let params = {
+      Bucket :BUCKET_NAME,
+      Key : filename , 
+      Body : data
+
+    }
+    s3bucket.upload(params ,(err,s3res)=>{
+      if(err){
+        console.log(err, 'something went wrong')
+      }else{
+        console.log(s3res , 'Success')
+      }
+    })
+  })
+
+}
 
 exports.downloadReport = async(req,res,next)=>{
-  console.log(req.header['Authorization'],'===================================>')
   try{
+    const expenses = await req.user.getExpenses()
+    const stringfyExpenses = JSON.stringify(expenses)
+    console.log(stringfyExpenses)
+    const filename ='Expenses.txt'
+    const fileurl = uploadToS3(stringfyExpenses ,filename)
+    if(req.user.ispremiumuser){
+res.status(200).json({filename , sucess:true})
+    }else{
+      res.status(401).json('Unauthorized')
+    }
 
   }catch(err){
 

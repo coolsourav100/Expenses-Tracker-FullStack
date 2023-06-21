@@ -31,7 +31,7 @@ Order.belongsTo(User)
 User.hasMany(ForgotPasswordRequested)
 ForgotPasswordRequested.belongsTo(User)
 // Server running
-sequelize.sync()
+sequelize.sync({})
 app.listen(4000,()=>{
   console.log('Server is running')
 })
