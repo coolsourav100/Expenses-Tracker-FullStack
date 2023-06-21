@@ -5,9 +5,12 @@ import axios from 'axios';
 const Forgotpassword = () => {
     const [ enteremail , setEnterEmail] = useState('')
     const forgetpasswordHandler= async (e)=>{
+        e.preventDefault()
         try{
-       const responce = await axios.post('http://localhost:4000/password/forgotpassword')
-       if(responce.status == 'ok'){
+       const responce = await axios.post('http://localhost:4000/password/forgotpassword',{email:enteremail})
+    //    .then(res=>console.log(res)).catch(err=>console.log(err))
+    //    console.log(responce,'==============>')
+       if(responce.statusText == 'OK'){
         alert('Password Link Send Successfully')
        }
         }catch(err){
