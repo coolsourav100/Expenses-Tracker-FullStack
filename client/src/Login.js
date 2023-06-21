@@ -87,7 +87,7 @@ setToggle(!toggle)
                     <div className="form-check d-flex justify-content-center mb-5">
                       {/* <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3c" /> */}
                       <label className="form-check-label" for="form2Example3">
-                        {/* <Link to='/forgetpassword'>Forget Password</Link>*/}
+                        <Link to='/resetpassword'>Forget Password</Link>
                       </label>
                     </div> : null}
                         {err && <p className='text-danger d-flex justify-content-center'>{err}</p>}

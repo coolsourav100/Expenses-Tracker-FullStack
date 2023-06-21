@@ -4,6 +4,7 @@ import {
 } from "react-router-dom";
 import Login from './Login';
 import Etable from "./component/Etable";
+import Forgotpassword from "./component/Forgotpassword";
 
 
 
@@ -12,9 +13,14 @@ function App() {
     {
       path: "/",
       element: <Login/>,
-    },{
+    },
+    {
       path:'/expenses' ,
       element:<Etable/>
+    },
+    {
+      path:'/resetpassword' ,
+      element:<Forgotpassword/>
     }
   ])
   return (
