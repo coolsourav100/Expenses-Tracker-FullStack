@@ -34,7 +34,7 @@ const Learderboard = ({toggle}) => {
     <tr>
       <th scope="row">{ind+1}</th>
       <td>{item.name}</td>
-      <td>{item.totalamount}</td>
+      <td>{item.totalExpenses}</td>
       
     </tr>
       )
