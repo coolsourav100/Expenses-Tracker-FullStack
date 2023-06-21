@@ -5,6 +5,7 @@ import {
 import Login from './Login';
 import Etable from "./component/Etable";
 import Forgotpassword from "./component/Forgotpassword";
+import { Newpassword } from "./component/Newpassword";
 
 
 
@@ -21,6 +22,9 @@ function App() {
     {
       path:'/resetpassword' ,
       element:<Forgotpassword/>
+    },{
+      path:'/password/reset/:id',
+      element:<Newpassword/>
     }
   ])
   return (

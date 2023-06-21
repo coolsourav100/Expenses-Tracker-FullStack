@@ -13,6 +13,7 @@ const paymentOrder = require('./router/order')
 const Order = require('./model/order')
 const premiumRouter = require('./router/premium')
 const passwordRouter = require('./router/password')
+const ForgotPasswordRequested = require('./model/ForgotPassWordRequesteds')
 // Middlewere
 app.use(cors())
 app.use(bodyParser.json())
@@ -27,6 +28,8 @@ User.hasMany(Expenses)
 Expenses.belongsTo(User)
 User.hasMany(Order)
 Order.belongsTo(User)
+User.hasMany(ForgotPasswordRequested)
+ForgotPasswordRequested.belongsTo(User)
 // Server running
 sequelize.sync()
 app.listen(4000,()=>{

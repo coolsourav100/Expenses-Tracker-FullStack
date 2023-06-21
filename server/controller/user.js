@@ -40,13 +40,15 @@ exports.loginUser = async(req,res,next)=>{
   const userPassword = req.body.password
   const user = await User.findAll({where:{ email:email }})
     if(user.length>0 == true){
-      bcrypt.compare(userPassword , user[0].password ,(err , result)=>{
-        if(!err){
+     const match = await bcrypt.compare(userPassword , user[0].password)
+     console.log(match,'==============>')
+     
+        if(match){
       res.status(200).json({response:"UserLoggedIn",token:generateToken(user[0].id),isPro:user[0].ispremiumuser})
         }else{
           res.status(401).json('User Not Authorizes!')
         }
-      })
+      
     }else{
       res.status(404).json('User Not Found !')
     }
