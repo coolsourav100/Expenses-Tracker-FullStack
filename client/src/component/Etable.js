@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios  from'axios';
 import PayButton from './PayButton';
+import FileSaver from 'file-saver';
 import Learderboard from './Learderboard';
 const Etable = () => {
   const [expens , setExpense] = useState({des:"", amount:0,cata:""})
@@ -49,6 +50,11 @@ if(res){
   }
   function pro(id){
     setUserpro(id)
+  }
+  
+  const reportDownloader=()=>{
+    let blob = new Blob([expensData], {type: "text/csv;charset=utf-8"});
+FileSaver.saveAs(blob, "report.csv");
   }
   return (
     <div className='row'>
@@ -113,6 +119,8 @@ if(res){
 })}
   </tbody>
 </table>
+{userpro=='false' ? null :
+          <button className='d-flex justify-content-center btn btn-light' onClick={reportDownloader}>Download Expenses Report</button>}
     </div>
     </div>
   )
