@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios  from'axios';
 import PayButton from './PayButton';
+import DataTable from 'react-data-table-component';
 // import FileSaver from 'file-saver';
 import Learderboard from './Learderboard';
 const Etable = () => {
@@ -8,11 +9,12 @@ const Etable = () => {
   const [expensData , setExpenseData] = useState([]);
   const [toggle , setToggle] = useState(false);
   const [userpro ,setUserpro] = useState(localStorage.getItem('isPro'))
+  const [page , setPage] = useState({id:+1})
 
   useEffect(()=>{
 
-axios.get('http://localhost:4000/expenses/allexpenses',{headers:{Authorization:localStorage.getItem('token')}}).then((res)=>{
-  console.log(res,'All')
+axios.get(`http://localhost:4000/expenses/allexpenses/?page=${page.id}`,{headers:{Authorization:localStorage.getItem('token')}}).then((res)=>{
+  console.log(res,'Allas')
   console.log(userpro=='false')
   setExpenseData(res.data)
 })
@@ -62,6 +64,22 @@ axios.get(`http://localhost:4000/auth/download`,{headers:{Authorization:localSto
   console.log(err)
 })
   }
+
+ 
+const pageNextHandler =(e)=>{
+  console.log(page.id)
+  e.preventDefault()
+  // console.log(page.id,'=======================================')
+  setPage({id : page.id+1})
+  setTimeout(()=> setToggle(!toggle),0)
+}
+const pagePrevHandler=(e)=>{
+  console.log(page.id)
+  if(page.id >1){
+    setPage({id : page.id-1})
+  }
+  setToggle(!toggle)
+}
   return (
     <div className='row'>
        {/* {userpro==false && <PayButton ispro={pro}/>} */}
@@ -127,6 +145,10 @@ axios.get(`http://localhost:4000/auth/download`,{headers:{Authorization:localSto
 </table>
 {userpro=='false' ? null :
           <button className='d-flex justify-content-center btn btn-light' onClick={reportDownloader}>Download Expenses Report</button>}
+          <div>
+    {page.id>1 && <button className='btn btn-primary m-2' onClick={pagePrevHandler}>Prev</button>}
+    <button className='btn btn-primary m-2' onClick={pageNextHandler}>Next</button>
+    </div>
     </div>
     </div>
   )

@@ -11,10 +11,12 @@
     "file-saver": "^2.0.5",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
+    "react-data-table-component": "^7.5.3",
     "react-dom": "^18.2.0",
     "react-router": "^6.13.0",
     "react-router-dom": "^6.13.0",
     "react-scripts": "5.0.1",
+    "sweetpagination": "^1.0.15",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

@@ -2,9 +2,14 @@ const Expenses = require('../model/expenses')
 const User = require('../model/user')
 const sequelize = require('../util/dataBase')
 
+const ITEM_PER_PAGE = 5
 exports.getAllExpenses = async(req,res,next)=>{
+    const page = +req.query.page || 1
     try{
-await Expenses.findAll({where:{userId:req.user.id}})
+await Expenses.findAll({
+    offset: (page-1) * ITEM_PER_PAGE ,
+    limit : ITEM_PER_PAGE
+},{where:{userId:req.user.id}})
             .then(res1=>res.status(200).json(res1))
     }catch(err){
 res.status(500).json(err)
