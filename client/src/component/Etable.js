@@ -56,7 +56,8 @@ if(res){
 //     let blob = new Blob([expensData], {type: "text/csv;charset=utf-8"});
 // FileSaver.saveAs(blob, "report.csv");
 axios.get(`http://localhost:4000/auth/download`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
-  console.log(res)
+  if(res.status==200){
+    return window.open(res.data.fileurl)}
 }).catch(err=>{
   console.log(err)
 })

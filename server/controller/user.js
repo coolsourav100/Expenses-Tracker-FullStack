@@ -1,11 +1,14 @@
-// const { where } = require('sequelize');
+require("dotenv").config();
 const User = require('../model/user')
 // bcrypt is for password encrypation 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Expenses = require('../model/expenses');
-const AWS = require('aws-sdk')
+
 const saltRounds = 10;
+const userservices = require('../services/user')
+const s3services = require('../services/s3services');
+const FileDownload = require("../model/FileDownload");
 // Register User
 
 exports.registerUser= async(req,res,next)=>{
@@ -59,59 +62,35 @@ exports.loginUser = async(req,res,next)=>{
 
 }
 
-// exports.getLeaderBoard = async(req,res,next)=>{
-//   try{
-//     await User.findAll().then(result=>{
-//       return res.status(200).json(result)
-//     }).catch(err=>{
-//       throw new Error(err)
-//     })
-
-//   }catch(err){
-//     res.status(500).json(err)
-//   }
-// }
-function uploadToS3(data , filename){
-  const BUCKET_NAME ='souravexpenses';
-  const IAM_USER_KEY ='AKIA32HNJJRSISHOWJRZ';
-  const IAM_USER_SECRET='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'
-
-  let s3bucket = new AWS.S3({
-    accessKeyId : IAM_USER_KEY ,
-    secretAccessKey : IAM_USER_SECRET,
-  })
-  s3bucket.createBucket(()=>{
-    let params = {
-      Bucket :BUCKET_NAME,
-      Key : filename , 
-      Body : data
-
-    }
-    s3bucket.upload(params ,(err,s3res)=>{
-      if(err){
-        console.log(err, 'something went wrong')
-      }else{
-        console.log(s3res , 'Success')
-      }
-    })
-  })
-
-}
 
 exports.downloadReport = async(req,res,next)=>{
+  const userid = req.user.id
   try{
-    const expenses = await req.user.getExpenses()
+    const expenses = await userservices.getExpenses(req)
     const stringfyExpenses = JSON.stringify(expenses)
     console.log(stringfyExpenses)
-    const filename ='Expenses.txt'
-    const fileurl = uploadToS3(stringfyExpenses ,filename)
+    const filename =`Expenses${userid}/${new Date()}.txt`
+    const fileurl =await s3services.uploadToS3(stringfyExpenses ,filename)
+   await FileDownload.create({filename:filename, location:fileurl , userId : userid}).then(result=>console.log(result,'9090999'))
     if(req.user.ispremiumuser){
-res.status(200).json({filename , sucess:true})
+res.status(200).json({fileurl, sucess:true})
     }else{
       res.status(401).json('Unauthorized')
     }
 
   }catch(err){
+res.status(500).json({fileurl:'',sucess:false})
+console.log(err)
+  }
+}
 
+exports.listDownload = async(req,res,next)=>{
+  const user = req.user.id
+  console.log(user,'===========>')
+  try{
+const list = await FileDownload.findAll({where:{userId : user}})
+return res.status(200).json(list)
+  }catch(err){
+    res.status(500).json(err)
   }
 }

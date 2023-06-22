@@ -2,7 +2,6 @@ const Sib = require('sib-api-v3-sdk');
 const { v4: uuid } = require('uuid');
 const User = require('../model/user');
 const ForgotPasswordRequested = require('../model/ForgotPassWordRequesteds');
-const { where } = require('sequelize');
 require("dotenv").config();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
