@@ -4,6 +4,9 @@ const bodyParser = require('body-parser')
 const sequelize = require('./util/dataBase')
 const User = require('./model/user')
 const Expenses = require('./model/expenses')
+const helmet = require('helmet')
+require('dotenv').config()
+const fs = require('fs')
 const app = express()
 
 // user module import
@@ -15,9 +18,18 @@ const premiumRouter = require('./router/premium')
 const passwordRouter = require('./router/password')
 const ForgotPasswordRequested = require('./model/ForgotPassWordRequesteds')
 const FileDownload = require('./model/FileDownload')
+const compression = require('compression')
+const morgan = require('morgan')
+const path = require('path')
+
+// fs
+const accessLogStream = fs.createWriteStream(path.join(__dirname,'access.Log'),{flag : 'a'})
 // Middlewere
 app.use(cors())
 app.use(bodyParser.json())
+app.use(helmet())
+app.use(compression())
+app.use(morgan('combined',{stream:accessLogStream}))
 // Routing
 app.use('/auth',userRouter)
 app.use('/expenses' , expensesRouter)
@@ -35,6 +47,6 @@ User.hasMany(FileDownload)
 FileDownload.belongsTo(User)
 // Server running
 sequelize.sync()
-app.listen(4000,()=>{
+app.listen(process.env.PORT || 4000,()=>{
   console.log('Server is running')
 })
