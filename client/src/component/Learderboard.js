@@ -12,7 +12,7 @@ const Learderboard = ({toggle}) => {
         }).catch(err=>console.log(err))
 
         axios.get('http://localhost:4000/auth/listdownload',{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
-            console.log(res ,'==================>')
+            // console.log(res ,'==================>')
             return setListdownload(res.data)
         }).catch(err=>console.log(err))
     },[toggle])

@@ -26,7 +26,7 @@ const PayButton = ({ispro}) => {
         }
         // const token = localStorage.getItem('token')
         const responce = await axios.get(`http://localhost:4000/order/membership`,{headers:{Authorization:localStorage.getItem('token')}})
-        console.log(responce)
+        // console.log(responce)
         // console.log(responce , '==================>')
         let options = {
             "key":responce.data.key_id,

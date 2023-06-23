@@ -8,7 +8,9 @@ const Forgotpassword = () => {
         e.preventDefault()
         try{
        const responce = await axios.post('http://localhost:4000/password/forgotpassword',{email:enteremail})
-       .then(res=>console.log(res)).catch(err=>{
+       .then(res=>{
+        // console.log(res)
+        }).catch(err=>{
         throw new Error(err)
        })
     //    console.log(responce,'==============>')

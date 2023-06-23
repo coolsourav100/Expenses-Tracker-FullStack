@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classes from './Login.module.css'
 import { Link, useNavigate } from 'react-router-dom';
+import img from './Assets/login.jpg'
 import axios from 'axios'
 
 const Login = () => {
@@ -56,7 +57,7 @@ setToggle(!toggle)
               <div className="row justify-content-center">
                 <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
   
-                  <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{ toggle ? `Register` : `Sing In`}</p>
+                  <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">{ toggle ? `Register` : `Sign In`}</p>
   
                   <form className="mx-1 mx-md-4" onSubmit={submitHandler}>
   
@@ -103,7 +104,7 @@ setToggle(!toggle)
                 </div>
                 <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
   
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                  <img src={img}
                     className="img-fluid" alt="Sample image"/>
   
                 </div>

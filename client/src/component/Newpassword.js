@@ -10,7 +10,7 @@ export const Newpassword = () => {
     useEffect(()=>{
       axios.get(`http://localhost:4000/password/verify_user/${id}`).then((res)=>{
         setResEmail(res.data)
-        console.log(res)
+        // console.log(res)
       }).catch(err=>{
         console.log(err)
       })
@@ -23,7 +23,7 @@ export const Newpassword = () => {
         e.preventDefault();
         try{
         const responce = await axios.post(`http://localhost:4000/password/updatepassword`,{email:resEmail,password:enterpassword})
-        console.log(responce)
+        // console.log(responce)
         // if(responce.status==201){
         //   alert('Password Updated ')
         // }

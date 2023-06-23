@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios  from'axios';
 import PayButton from './PayButton';
-import DataTable from 'react-data-table-component';
 // import FileSaver from 'file-saver';
 import Learderboard from './Learderboard';
 const Etable = () => {
@@ -14,8 +13,8 @@ const Etable = () => {
   useEffect(()=>{
 
 axios.get(`http://localhost:4000/expenses/allexpenses/?page=${page.id}`,{headers:{Authorization:localStorage.getItem('token')}}).then((res)=>{
-  console.log(res,'Allas')
-  console.log(userpro=='false')
+  // console.log(res,'Allas')
+  // console.log(userpro=='false')
   setExpenseData(res.data)
 })
   },[toggle])
@@ -28,13 +27,13 @@ setExpense({...expens,[e.target.name]:e.target.value})
     e.preventDefault()
 try{
 let res = await axios.post('http://localhost:4000/expenses/addexpenses',{...expens},{headers:{Authorization:localStorage.getItem('token')}})
-console.log(res)
+// console.log(res)
 if(res){
   setExpense({des:"", amount:0,cata:""})
   setToggle(!toggle)
 }
 }catch(err){
-  console.log(err)
+  // console.log(err)
 }
 
   }
@@ -42,11 +41,11 @@ if(res){
   const deleteHandler=async(id)=>{
     try{
       await axios.delete(`http://localhost:4000/expenses/deleteexpenses/${id}`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
-        console.log(res)
+        // console.log(res)
         setToggle(!toggle)
       })
     }catch(err){
-      console.log(err)
+      // console.log(err)
     }
 
   }
@@ -61,20 +60,20 @@ axios.get(`http://localhost:4000/auth/download`,{headers:{Authorization:localSto
   if(res.status==200){
     return window.open(res.data.fileurl)}
 }).catch(err=>{
-  console.log(err)
+  // console.log(err)
 })
   }
 
  
 const pageNextHandler =(e)=>{
-  console.log(page.id)
+  // console.log(page.id)
   e.preventDefault()
   // console.log(page.id,'=======================================')
   setPage({id : page.id+1})
   setTimeout(()=> setToggle(!toggle),0)
 }
 const pagePrevHandler=(e)=>{
-  console.log(page.id)
+  // console.log(page.id)
   if(page.id >1){
     setPage({id : page.id-1})
   }
