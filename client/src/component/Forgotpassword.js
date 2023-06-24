@@ -2,12 +2,14 @@ import React ,{useState} from 'react';
 import { Link} from 'react-router-dom';
 import img from '../Assets/forgetpassword.jpg'
 import axios from 'axios';
+import apiData from './Api';
+
 const Forgotpassword = () => {
     const [ enteremail , setEnterEmail] = useState('')
     const forgetpasswordHandler= async (e)=>{
         e.preventDefault()
         try{
-       const responce = await axios.post('http://localhost:4000/password/forgotpassword',{email:enteremail})
+       const responce = await axios.post(`${apiData}/password/forgotpassword`,{email:enteremail})
        .then(res=>{
         // console.log(res)
         }).catch(err=>{

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import classes from './Login.module.css'
 import { Link, useNavigate } from 'react-router-dom';
 import img from './Assets/login.jpg'
-import axios from 'axios'
+import axios from 'axios';
+import apiData from './component/Api'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -20,7 +21,7 @@ setToggle(!toggle)
   const submitHandler=(e)=>{
     e.preventDefault();
     if(toggle){
-      axios.post('http://localhost:3000/auth/register',{name:enterName,email:enteremail,password:enterpassword}).
+      axios.post(`${apiData}/auth/register`,{name:enterName,email:enteremail,password:enterpassword}).
       then((res)=>{
         console.log(res)
         if(res.status == 202){
@@ -32,7 +33,7 @@ setToggle(!toggle)
     
     }else{
       console.log('Login')
-      axios.post('http://localhost:3000/auth/login',{email:enteremail,password:enterpassword}).
+      axios.post(`${apiData}/auth/login`,{email:enteremail,password:enterpassword}).
       then((res)=>{
         console.log(res.data)
         localStorage.setItem('token',res.data.token)

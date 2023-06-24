@@ -1,17 +1,17 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-
+import apiData from './Api'
 const Learderboard = ({toggle}) => {
     const [resData , setResData] = useState([])
   const [listdownload , setListdownload] = useState([])
 
     useEffect(()=>{
-        axios.get('http://localhost:4000/premium/leaderboard',{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
+        axios.get(`${apiData}/premium/leaderboard`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
             // console.log(res ,'==================>')
             return setResData(res.data)
         }).catch(err=>console.log(err))
 
-        axios.get('http://localhost:4000/auth/listdownload',{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
+        axios.get(`${apiData}/auth/listdownload`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
             // console.log(res ,'==================>')
             return setListdownload(res.data)
         }).catch(err=>console.log(err))

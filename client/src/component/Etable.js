@@ -3,6 +3,8 @@ import axios  from'axios';
 import PayButton from './PayButton';
 // import FileSaver from 'file-saver';
 import Learderboard from './Learderboard';
+import apiData from './Api';
+import Logout from './Logout';
 const Etable = () => {
   const [expens , setExpense] = useState({des:"", amount:0,cata:""})
   const [expensData , setExpenseData] = useState([]);
@@ -12,7 +14,7 @@ const Etable = () => {
 
   useEffect(()=>{
 
-axios.get(`http://localhost:3000/expenses/allexpenses/?page=${page.id}`,{headers:{Authorization:localStorage.getItem('token')}}).then((res)=>{
+axios.get(`${apiData}/expenses/allexpenses/?page=${page.id}`,{headers:{Authorization:localStorage.getItem('token')}}).then((res)=>{
   // console.log(res,'Allas')
   // console.log(userpro=='false')
   setExpenseData(res.data)
@@ -26,7 +28,7 @@ setExpense({...expens,[e.target.name]:e.target.value})
   const submitHandler= async(e)=>{
     e.preventDefault()
 try{
-let res = await axios.post('http://localhost:3000/expenses/addexpenses',{...expens},{headers:{Authorization:localStorage.getItem('token')}})
+let res = await axios.post(`${apiData}/expenses/addexpenses`,{...expens},{headers:{Authorization:localStorage.getItem('token')}})
 // console.log(res)
 if(res){
   setExpense({des:"", amount:0,cata:""})
@@ -40,7 +42,7 @@ if(res){
 
   const deleteHandler=async(id)=>{
     try{
-      await axios.delete(`http://localhost:3000/expenses/deleteexpenses/${id}`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
+      await axios.delete(`${apiData}/expenses/deleteexpenses/${id}`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
         // console.log(res)
         setToggle(!toggle)
       })
@@ -56,7 +58,7 @@ if(res){
   const reportDownloader=()=>{
 //     let blob = new Blob([expensData], {type: "text/csv;charset=utf-8"});
 // FileSaver.saveAs(blob, "report.csv");
-axios.get(`http://localhost:3000/auth/download`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
+axios.get(`${apiData}/auth/download`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
   if(res.status==200){
     return window.open(res.data.fileurl)}
 }).catch(err=>{
@@ -81,9 +83,11 @@ const pagePrevHandler=(e)=>{
 }
   return (
     <div className='row'>
-       {/* {userpro==false && <PayButton ispro={pro}/>} */}
+      <div className='d-flex justify-content-between'>
        {userpro=='false' ?  <PayButton ispro={pro}/> :<h4>Welcome Premium User</h4>}
-       {/* <div className='conatiner'> */}
+       
+       <Logout/>
+       </div>
     <div className='container h-50 col-3 border border-info rounded p-4 m-4'>
         <h3 className='text-secondary d-flex justify-content-center p-1'> Add Your Expenses</h3>
         <form onSubmit={submitHandler}>

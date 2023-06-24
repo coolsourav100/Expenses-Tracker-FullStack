@@ -1,5 +1,6 @@
 import axios from 'axios'
 import React from 'react'
+import apiData from './Api'
 
 const PayButton = ({ispro}) => {
     // console.log(props)
@@ -25,14 +26,14 @@ const PayButton = ({ispro}) => {
             return;
         }
         // const token = localStorage.getItem('token')
-        const responce = await axios.get(`http://localhost:3000/order/membership`,{headers:{Authorization:localStorage.getItem('token')}})
+        const responce = await axios.get(`${apiData}/order/membership`,{headers:{Authorization:localStorage.getItem('token')}})
         // console.log(responce)
         // console.log(responce , '==================>')
         let options = {
             "key":responce.data.key_id,
             "order_id":responce.data.order.id,
             "handler" : async function (responce){
-                await axios.post('http://localhost:3000/order/paymentstatus',{
+                await axios.post(`${apiData}/order/paymentstatus`,{
                     order_id : options.order_id ,
                     payment_id:responce.razorpay_payment_id } , {headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
                         localStorage.setItem('isPro',true)
@@ -46,7 +47,7 @@ const PayButton = ({ispro}) => {
         e.preventDefault()
         paymentObject.on('payment.failed', async(res)=>{
             console.log(res,'fail payment')
-            await axios.post('http://localhost:3000/order/paymentstatusfail',{
+            await axios.post(`${apiData}/order/paymentstatusfail`,{
                 order_id :responce.data.order.id ,
                 payment_id:responce.razorpay_payment_id } , {headers:{Authorization:localStorage.getItem('token')}}).then(res=>console.log(res,'res')).catch(err=>console.log(err,'err'))
                 alert('Your Payment is Failed!')

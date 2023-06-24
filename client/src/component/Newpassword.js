@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router';
+import apiData from './Api';
 
 export const Newpassword = () => {
     const [ resEmail , setResEmail] = useState('')
@@ -8,7 +9,7 @@ export const Newpassword = () => {
     const id = useParams().id
     console.log(id)
     useEffect(()=>{
-      axios.get(`http://localhost:3000/password/verify_user/${id}`).then((res)=>{
+      axios.get(`${apiData}/password/verify_user/${id}`).then((res)=>{
         setResEmail(res.data)
         // console.log(res)
       }).catch(err=>{
@@ -22,7 +23,7 @@ export const Newpassword = () => {
     const newpasswordHandler=async(e)=>{
         e.preventDefault();
         try{
-        const responce = await axios.post(`http://localhost:3000/password/updatepassword`,{email:resEmail,password:enterpassword})
+        const responce = await axios.post(`${apiData}/password/updatepassword`,{email:resEmail,password:enterpassword})
         // console.log(responce)
         // if(responce.status==201){
         //   alert('Password Updated ')
