@@ -25,9 +25,9 @@ const path = require('path')
 // fs
 const accessLogStream = fs.createWriteStream(path.join(__dirname,'access.Log'),{flag : 'a'})
 // Middlewere
-app.use(cors({ origin: "http://localhost:3000" }))
+app.use(cors())
 app.use(bodyParser.json())
-app.use(helmet())
+// app.use(helmet())
 app.use(compression())
 app.use(morgan('combined',{stream:accessLogStream}))
 app.use(express.static(path.join(__dirname, 'build')));
