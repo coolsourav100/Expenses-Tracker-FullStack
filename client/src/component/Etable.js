@@ -12,7 +12,7 @@ const Etable = () => {
 
   useEffect(()=>{
 
-axios.get(`http://localhost:4000/expenses/allexpenses/?page=${page.id}`,{headers:{Authorization:localStorage.getItem('token')}}).then((res)=>{
+axios.get(`http://localhost:3000/expenses/allexpenses/?page=${page.id}`,{headers:{Authorization:localStorage.getItem('token')}}).then((res)=>{
   // console.log(res,'Allas')
   // console.log(userpro=='false')
   setExpenseData(res.data)
@@ -26,7 +26,7 @@ setExpense({...expens,[e.target.name]:e.target.value})
   const submitHandler= async(e)=>{
     e.preventDefault()
 try{
-let res = await axios.post('http://localhost:4000/expenses/addexpenses',{...expens},{headers:{Authorization:localStorage.getItem('token')}})
+let res = await axios.post('http://localhost:3000/expenses/addexpenses',{...expens},{headers:{Authorization:localStorage.getItem('token')}})
 // console.log(res)
 if(res){
   setExpense({des:"", amount:0,cata:""})
@@ -40,7 +40,7 @@ if(res){
 
   const deleteHandler=async(id)=>{
     try{
-      await axios.delete(`http://localhost:4000/expenses/deleteexpenses/${id}`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
+      await axios.delete(`http://localhost:3000/expenses/deleteexpenses/${id}`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
         // console.log(res)
         setToggle(!toggle)
       })
@@ -56,7 +56,7 @@ if(res){
   const reportDownloader=()=>{
 //     let blob = new Blob([expensData], {type: "text/csv;charset=utf-8"});
 // FileSaver.saveAs(blob, "report.csv");
-axios.get(`http://localhost:4000/auth/download`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
+axios.get(`http://localhost:3000/auth/download`,{headers:{Authorization:localStorage.getItem('token')}}).then(res=>{
   if(res.status==200){
     return window.open(res.data.fileurl)}
 }).catch(err=>{

@@ -27,7 +27,7 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname,'access.Log'),{
 // Middlewere
 app.use(cors())
 app.use(bodyParser.json())
-app.use(helmet())
+// app.use(helmet())
 app.use(compression())
 app.use(morgan('combined',{stream:accessLogStream}))
 // Routing
@@ -47,6 +47,6 @@ User.hasMany(FileDownload)
 FileDownload.belongsTo(User)
 // Server running
 sequelize.sync()
-app.listen(process.env.PORT || 4000,()=>{
+app.listen(process.env.PORT ,()=>{
   console.log('Server is running')
 })

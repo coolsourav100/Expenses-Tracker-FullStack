@@ -20,7 +20,7 @@ setToggle(!toggle)
   const submitHandler=(e)=>{
     e.preventDefault();
     if(toggle){
-      axios.post('http://localhost:4000/auth/register',{name:enterName,email:enteremail,password:enterpassword}).
+      axios.post('http://localhost:3000/auth/register',{name:enterName,email:enteremail,password:enterpassword}).
       then((res)=>{
         console.log(res)
         if(res.status == 202){
@@ -32,7 +32,7 @@ setToggle(!toggle)
     
     }else{
       console.log('Login')
-      axios.post('http://localhost:4000/auth/login',{email:enteremail,password:enterpassword}).
+      axios.post('http://localhost:3000/auth/login',{email:enteremail,password:enterpassword}).
       then((res)=>{
         console.log(res.data)
         localStorage.setItem('token',res.data.token)
